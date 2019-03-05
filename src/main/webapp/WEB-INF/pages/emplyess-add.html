@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 7]>
+<link href="http://www.bootcss.com/p/font-awesome/assets/css/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<title>添加用户</title>
+</head>
+<body>
+<div class="pd-20">
+  <div class="Huiform">
+    <form action="/" method="post">
+      <table class="table table-bg">
+        <tbody>
+          <tr>
+            <th width="100" class="text-r"><span class="c-red">*</span> 姓名：</th>
+            <td><input type="text" style="width:200px" class="input-text" value="" placeholder="" id="user-name" name="user-name" datatype="*2-16" nullmsg="用户名不能为空"></td>
+          </tr>
+          <tr>
+            <th class="text-r"><span class="c-red">*</span> 性别：</th>
+            <td><label>
+                <input name="sex" type="radio" id="six_1" value="男" checked>
+                男</label>
+              <label>
+                <input type="radio" name="sex" value="女" id="six_0">
+                女</label></td>
+          </tr>
+           <tr>
+            <th width="100" class="text-r"><span class="c-red">*</span> 年龄：</th>
+            <td><input type="text" style="width:200px" class="input-text" value="" placeholder="" id="user-age" name="user-age" datatype="*2-16" nullmsg="年龄不能为空"></td>
+          </tr>
+          <tr>
+            <th class="text-r"><span class="c-red">*</span> 手机：</th>
+            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-tel" name="user-tel"></td>
+          </tr>
+          <tr>
+            <th class="text-r">邮箱：</th>
+            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-email" name="user-email"></td>
+          </tr>
+          <tr>
+            <th class="text-r">地址：</th>
+            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-address" name="user-address"></td>
+          </tr>
+           <tr>
+            <th class="text-r">部门：</th>
+            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="department" name="department"></td>
+          </tr>
+           <tr>
+            <th class="text-r">职位：</th>
+            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="post" name="post"></td>
+          </tr>
+          <tr>
+            <th></th>
+            <td><button class="btn btn-success radius" type="button" onclick="doSaveOrUpdate();return false"><i class="icon-ok"></i> 确定</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去--> 
+<script type="text/javascript">
+	$(function(){
+		var url = document.location.toString();
+	　　	if(url.indexOf("?") != -1){
+	　　		//修改
+	　　		var param = url.split("?")[1];
+	　　	　　	var id = param.split("=")[1];
+	　　	　　	console.log("id:"+id);
+	　　	　　	doInitForms(id);
+	　　	　　
+	　　	}else{
+	　　		//添加
+	  		
+	　　	}
+	})
+	function doSaveOrUpdate(){
+		var submitUrl = "";
+		var url = document.location.toString();
+		var params = getParams();
+	　　	if(url.indexOf("?") != -1){
+	　　		var param = url.split("?")[1];
+	　　	　　	var id = param.split("=")[1];
+	　　	　　	params.userId = id;
+	　　		submitUrl = "/Emplyess/doUpdateUser.do";
+	　　	}else{
+	　　		submitUrl = "/Emplyess/doSaveUser.do";
+	　　	}
+	　　	$.ajax({
+	　　		url:submitUrl,
+	  		type:'POST',
+	  		data:params,
+	  		dataType:"json",
+	  		success:function(result){
+	  			if(result.state == 1){
+	  				layer.msg(result.message,{icon:1,time:1000},function(){
+	        			window.parent.location.reload(); //刷新父页面
+	            		var index = parent.layer.getFrameIndex(window.name);
+	            		parent.layer.close(index);
+	        		});
+	        		
+	  			}else{
+	  				layer.msg(result.message,{icon:2,time:1000});
+	  			}
+	  		}
+	　　	})
+	}
+	function getParams(){
+		var params = {
+			name:$("#user-name").val(),
+			password:$("#user-password").val(),
+			gender:$("input[name=sex]").val(),
+			age:$("#user-age").val(),
+			telphone:$("#user-tel").val(),
+			email:$("#user-email").val(),
+			address:$("#user-address").val(),
+			department:$("#department").val(),
+			post:$("#post").val()
+			
+		}
+		return params;
+	}
+	function doInitForms(id){
+		$.ajax({
+			url:"/Emplyess/doFindUserById.do",
+			type:"post",
+			dataType:"json",
+			data:{
+				id:id
+			},success:function(result){
+				console.log(result.data)
+				if(result.state == 1){
+					$("#user-name").val(result.data.name);
+					var gender = result.data.gender;
+					if(gender.localeCompare("男") == 0){
+						$("#six_1").prop("checked","checked");
+					}else{
+						$("#six_0").prop("checked","checked");
+					}
+					$("#user-age").val(result.data.age);
+					$("#user-tel").val(result.data.telphone);
+					$("#user-email").val(result.data.email);
+					$("#user-address").val(result.data.address);
+					$("#department").val(result.data.department);
+					$("#post").val(result.data.post);
+					
+				}else{
+					layer.msg(result.message,{icon:2,time:1000});
+				}
+			}
+		})
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+ <!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>添加管理员 - 管理员管理 - H-ui.admin v3.1</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-admin-add">
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="" placeholder="" id="username" name="username">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">
+		</div>
+	</div>
+	
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+			<div class="radio-box">
+				<input type="radio" name="gender" value="男" checked>
+				<label for="sex-1">男</label>
+			</div>
+			<div class="radio-box">
+				<input type="radio" name="gender" value="女">
+				<label for="sex-2">女</label>
+			</div>
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="" placeholder="" id="telphone" name="telphone">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" placeholder="@" name="email" id="email">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">部门：</label>
+		<div class="formControls col-xs-8 col-sm-9" id="roles">
+			
+		</div>	
+	</div>
+	
+</div>
+	
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">备注：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<textarea id="note" name="note" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true"></textarea>
+		</div>
+	</div>
+	<div class="row cl">
+		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+			<input class="btn btn-primary radius" type="button" id="saveOrup" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" />
+		</div>
+	</div>
+	</form>
+</article>
+<!--_footer 作为公共模版分离出去--> 
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+<script type="text/javascript">
+$(function(){
+	var url = document.location.toString();
+　　	if(url.indexOf("?") != -1){
+　　		//修改
+　　		var param = url.split("?")[1];
+　　	　　	var id = param.split("=")[1];
+　　	　　	$("#form-admin-add").data("id",id)
+　　	　　	doInitForms(id);
+　　	　　	
+　　	}else{
+　　		//添加
+　　	}
+
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	FindRles();
+	$("#saveOrup").click(function(){
+		submitData()
+	})
+});
+function FindRles(){
+	$.ajax({
+		url:"/Emplyess/findRoles.do",
+		async:false,
+		type:"POST",
+		dataType:"json",
+		success:function(result){
+			if(result.state == 1){
+				doResponseDataList(result.data);
+			}
+		}
+	})
+}
+function doResponseDataList(data) {
+	console.log(data)
+	var $role = $("#roles");
+	for(var i in data){
+		var input="<input type='checkbox' name='roleId' value="+data[i].id+">"+data[i].departmentName
+		$role.append(input)
+		if((parseInt(i)+1)%4==0)
+			$role.append("<br/>")
+	}
+}
+
+
+
+function submitData(){
+	var params = {}
+	var admin = doGetAdminInfo()
+	if(admin)params.admin=admin
+	var roleIds=doGetRoleIds()
+	if(roleIds)params.roleIds=roleIds
+	var url = document.location.toString();
+	var submitUrl = "";
+　　	if(url.indexOf("?") != -1){
+　　		submitUrl = "/doUpdateAdmin.do";
+　　		params.admin.id = $("#form-admin-add").data("id");
+　　	}else{
+　　		submitUrl = "/Emplyess/doSaveAdmin.do";
+　　	}
+　　	params=JSON.stringify(params)
+  	console.log(params)
+	$.ajax({
+		type: 'post', // 提交方式 get/post
+        url: submitUrl, // 需要提交的 url
+        dataType:'json',
+        contentType:'application/json',
+        data:params,
+        success:function(result){
+        	if(result.state == 1){
+        		layer.msg(result.message,{icon:1,time:1000},function(){
+        			window.parent.location.reload(); //刷新父页面
+            		var index = parent.layer.getFrameIndex(window.name);
+            		parent.layer.close(index);
+        		});
+        		
+        	}else{
+        		layer.msg(result.message,{icon:2,time:1000});
+        	}
+        }
+	});
+}
+function doGetRoleIds(){
+	var array=[]
+	$("#roles input[type=checkbox]").
+	each(function(){
+		if($(this).prop("checked")){
+			array.push($(this).val())
+		}
+	})
+	return array
+}
+function doGetAdminInfo(){
+	var username=$("input[name=username]").val()
+	var password=$("input[name=password]").val()
+	var gender = $("input[name=gender]:checked").val()
+	var name = $("input[name=name]").val()
+	var telphone = $("input[name=telphone]").val()
+	var email = $("input[name=email]").val()
+	var note =$("textarea[name=note]").val()
+	var param ={
+		username:username,
+		password:password,
+		gender:gender,
+		name:name,
+		telphone:telphone,
+		email:email,
+		note:note
+	}
+	return param
+}
+
+function doInitForms(id){
+	$.ajax({
+	url:"/doFindAdminById.do",
+	type:"post",
+	data:{
+		id:id
+	},
+	dataType:"json",
+	success:function(result){
+		if(result.state==1){
+			doResponse(result);
+		}
+		
+		
+	}
+}) 
+}
+
+function doResponse(result){
+	$("input[type=hidden]").val(result.data.id);
+	$("#username").val(result.data.username);
+	$("#telphone").val(result.data.telphone);
+	$("#email").val(result.data.email);
+	for(var i in result.data.roles){
+		$("#roles input[value="+result.data.roles[i].id+"]").prop("checked","true")
+	}
+	$("textarea[name=note]").val(result.data.note)
+}
+
+
+
+
+
+
+
+
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

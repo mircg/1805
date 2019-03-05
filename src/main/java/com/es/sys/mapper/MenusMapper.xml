@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.es.sys.mapper.MenusMapper">
+  <resultMap id="BaseResultMap" type="com.es.sys.pojo.Menus">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="permission" jdbcType="VARCHAR" property="permission" />
+    <result column="createdTime" jdbcType="TIMESTAMP" property="createdtime" />
+    <result column="modifiedTime" jdbcType="TIMESTAMP" property="modifiedtime" />
+    <result column="createdUser" jdbcType="VARCHAR" property="createduser" />
+    <result column="modifiedUser" jdbcType="VARCHAR" property="modifieduser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, url, type, sort, note, parentId, permission, createdTime, modifiedTime, 
+    createdUser, modifiedUser
+  </sql>
+  <select id="selectByExample" parameterType="com.es.sys.pojo.MenusExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from menus
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menus
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menus
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.es.sys.pojo.MenusExample">
+    delete from menus
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.es.sys.pojo.Menus">
+    insert into menus (id, name, url, 
+      type, sort, note, parentId, 
+      permission, createdTime, modifiedTime, 
+      createdUser, modifiedUser)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
+      #{permission,jdbcType=VARCHAR}, #{createdtime,jdbcType=TIMESTAMP}, #{modifiedtime,jdbcType=TIMESTAMP}, 
+      #{createduser,jdbcType=VARCHAR}, #{modifieduser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.es.sys.pojo.Menus">
+    insert into menus
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="parentid != null">
+        parentId,
+      </if>
+      <if test="permission != null">
+        permission,
+      </if>
+      <if test="createdtime != null">
+        createdTime,
+      </if>
+      <if test="modifiedtime != null">
+        modifiedTime,
+      </if>
+      <if test="createduser != null">
+        createdUser,
+      </if>
+      <if test="modifieduser != null">
+        modifiedUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null">
+        #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedtime != null">
+        #{modifiedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createduser != null">
+        #{createduser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifieduser != null">
+        #{modifieduser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.es.sys.pojo.MenusExample" resultType="java.lang.Integer">
+    select count(*) from menus
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update menus
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null">
+        parentId = #{record.parentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.permission != null">
+        permission = #{record.permission,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdtime != null">
+        createdTime = #{record.createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedtime != null">
+        modifiedTime = #{record.modifiedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createduser != null">
+        createdUser = #{record.createduser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifieduser != null">
+        modifiedUser = #{record.modifieduser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update menus
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      note = #{record.note,jdbcType=VARCHAR},
+      parentId = #{record.parentid,jdbcType=INTEGER},
+      permission = #{record.permission,jdbcType=VARCHAR},
+      createdTime = #{record.createdtime,jdbcType=TIMESTAMP},
+      modifiedTime = #{record.modifiedtime,jdbcType=TIMESTAMP},
+      createdUser = #{record.createduser,jdbcType=VARCHAR},
+      modifiedUser = #{record.modifieduser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.es.sys.pojo.Menus">
+    update menus
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        parentId = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="permission != null">
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null">
+        createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedtime != null">
+        modifiedTime = #{modifiedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createduser != null">
+        createdUser = #{createduser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifieduser != null">
+        modifiedUser = #{modifieduser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.es.sys.pojo.Menus">
+    update menus
+    set name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR},
+      parentId = #{parentid,jdbcType=INTEGER},
+      permission = #{permission,jdbcType=VARCHAR},
+      createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      modifiedTime = #{modifiedtime,jdbcType=TIMESTAMP},
+      createdUser = #{createduser,jdbcType=VARCHAR},
+      modifiedUser = #{modifieduser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+      		<select id="findObjects" resultType="map">
+  		<!-- 
+  			select c.id,c.name,c.parentId,p.name parentName
+  			from menus c left join menus p
+  			on c.parentId=p.id;
+  			 -->
+  			 <!-- 方案二 -->
+  			 select c.*, (select name from menus p where c.parentId= p.id) parentName
+  			 from menus c
+  		</select>
+  		
+  		<select id="getChildCount" resultType="int">
+  			select count(*)
+  			from menus
+  			where parentId=#{id}
+  		</select>
+  		<!-- 基于id删除菜单自身信息 -->
+  		<delete id="deleeteObject">
+  			delete
+  			from menus
+  			where id =#{id}
+  		</delete>
+  		
+  		<select id="findZtreeMenuNodes" resultType="com.es.common.vo.Node">
+  			select id,name,parentId
+  			from menus
+  		</select>
+  		
+  		<insert id="insertObject" >
+  		insert into menus (name,url,type,sort,note,parentId,permission,
+		createdTime,modifiedTime,createdUser,modifiedUser)
+        values
+      	(#{name},#{url},#{type},#{sort},#{note},#{parentId},#{permission},
+		now(),now(),#{createdUser},#{modifiedUser})
+  		</insert>
+  		<update id="updataObject">
+  			   update menus
+         set
+           name=#{name},
+           type=#{type},
+           sort=#{sort},
+           url=#{url},
+           parentId=#{parentId},
+           permission=#{permission},
+           modifiedUser=#{modifiedUser},
+           modifiedTime=now()
+       	 where id=#{id}
+  			
+  		</update>
+  		
+  		
+  		
+  		 <select id="findPermissions"
+           resultType="string">
+       select permission <!-- sys:user:update -->
+       from menus
+       where id in 
+       <foreach collection="menuIds"
+                open="("
+                close=")"
+                separator=","
+                item="item">
+            #{item}
+       </foreach>
+   </select>
+</mapper>

@@ -1,0 +1,178 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="static/page/page.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>部门表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span> 分类管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a href="javascript:void(0);" onclick="deleteByIds()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加分类','product-category-add.do','600')"><i class="Hui-iconfont">&#xe600;</i> 添加分类</a> </span> <span class="r">共有数据：<strong id="dataCount"></strong> 条</span> </div>
+	<table class="table table-border table-bordered table-hover">
+		<thead>
+			<tr>
+				<th scope="col" colspan="6">分类管理</th>
+			</tr>
+			<tr class="text-c">
+				<th width="25"><input type="checkbox" value="" name=""></th>
+				<th width="40">部门</th>
+				<th>员工</th>
+				<th>描述</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+				<td colspan="5">正在加载</td>
+			</tr>
+		</tbody>
+	</table>
+	<ul class="page" pagelistcount="10" id="page" style="float:right;margin-top:20px;margin-bottom:20px;"></ul>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="static/page/page.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	doGetObjects(1);
+	
+})
+
+/*加载所有分类信息*/
+function doGetObjects(pageCurrent){
+	//获取关键词
+	/* var name = $("#uname").val(); */
+	//获取pageSzie
+	var pageSize = $("#page").attr("pagelistcount");
+	var params = {
+			pageNum:pageCurrent,
+			pageSize:pageSize
+	}
+	$.ajax({
+		url:"/TourismMIS/proType/doFindProTypeList.do",
+		type:"get",
+		data:params,
+		dataType:"json",
+		beforeSend:function(){
+			layer.msg('正在查询请稍候。。。', {icon: 16,time: 500,shade : [0.5 , '#000' , true]});
+		},
+		success:function(result){
+			if(result.state==1){
+				var $tbody = $(".table-bordered tbody");
+				$tbody.html("");
+				$("#dataCount").html(result.data.list.length);
+				createRows($tbody,result.data,pageCurrent);
+			}else{
+				layer.msg(result.message,{icon:2,time:1000});
+			}
+		}
+	})
+}
+/*创建行*/
+function createRows(tbody,data,pageCurrent){
+	console.log(data);
+	$("#page").initPage(data.total,pageCurrent,function(){});
+	for(var i=0; i<data.list.length; i++ ){
+		var description = data.list[i].description?data.list[i].description:"暂无描述";
+		var $tr = $("<tr class='text-c'></tr>")
+		$tr.data("rowData",data.list[i]);
+		var $td = $("<td><input type='checkbox' value='"+data.list[i].typeId+"' name='typeId'></td>"
+				+"<td>"+data.list[i].typeId+"</td>"
+				+"<td>"+data.list[i].typeName+"</td>"
+				+"<td>"+description+"</td>"
+				+'<td class="f-14"><a title="编辑" href="javascript:void(0);" onclick="admin_role_edit(\'更改分类\',\'product-category-add.do\',\'600\',this)" '
+				+'style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> '
+				+'<a title="删除" href="javascript:void(0);" onclick="admin_role_del(this,'+data.list[i].typeId+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>'
+				);
+		$tr.append($td);
+		tbody.append($tr);
+	}
+}
+/*管理员-角色-添加*/
+function admin_role_add(title,url,w,h){
+	layer_show(title,url,w,250);
+}
+/*管理员-角色-编辑*/
+function admin_role_edit(title,url,id,obj,w,h){
+	var rowData=$(obj).parents("tr").data("rowData");
+	var purl= url+"?id="+rowData.typeId;
+	layer_show(title,purl,w,250);
+}
+/*管理员-角色-删除*/
+function admin_role_del(obj,id){
+	var param = {"id":id};
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '/TourismMIS/proType/doDeleteProType.do',
+			data:param,
+			dataType: 'json',
+			success: function(data){
+				if(data.state == 1){
+					$(obj).parents("tr").remove();
+					layer.msg(data.message,{icon:1,time:1000});
+				}else{
+					layer.msg(data.message,{icon:2,time:1000});
+				}
+			},
+			error:function(data) {
+				console.log(data.message);
+			},
+		});		
+	});
+}
+function getAllChecked(){
+	var array =[];
+	$("tbody input[type=checkbox]").each(function(){
+		if($(this).prop("checked")){
+			array.push($(this).val());
+		}
+	})
+	return array;
+}
+function deleteByIds(){
+	var ids = getAllChecked();
+	var param = {"ids":ids.toString()};
+	console.pram
+	layer.confirm('确认要删除吗？',function(index){
+	$.ajax({
+			type: 'POST',
+			url: '/TourismMIS/proType/doDeleteProTypesByIds.do',
+			data:param,
+			dataType: 'json',
+			success: function(data){
+				layer.msg('已删除!',{icon:1,time:1000});
+				loadData();
+			},
+			error:function(data) {
+				console.log(data.message);
+			},
+		});		
+	});
+}
+</script>
+</body>
+</html>
