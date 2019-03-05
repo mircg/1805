@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminRolesMapper adminRolesMapper;
 	
-
+  
 	@Override
 	public PageInfo<Admin> findAdminList(Integer pageNum, Integer pageSize) {
 	if(pageSize==null) {
