@@ -107,19 +107,25 @@ public class Menus {
         this.modifiedtime = modifiedtime;
     }
 
-    public String getCreateduser() {
-        return createduser;
-    }
+	public String getCreatedUser() {
+		return createdUser;
+	}
 
-    public void setCreateduser(String createduser) {
-        this.createduser = createduser;
-    }
+	public void setCreatedUser(String createdUser) {
+		this.createdUser = createdUser;
+	}
 
-    public String getModifieduser() {
-        return modifieduser;
-    }
+	public String getModifiedUser() {
+		return modifiedUser;
+	}
 
-    public void setModifieduser(String modifieduser) {
-        this.modifieduser = modifieduser;
-    }
+	public void setModifiedUser(String modifiedUser) {
+		this.modifiedUser = modifiedUser;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+  
 }

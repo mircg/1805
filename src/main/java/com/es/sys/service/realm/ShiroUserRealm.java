@@ -1,6 +1,10 @@
 package com.es.sys.service.realm;
 
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -16,8 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.util.StringUtils;
+import com.es.common.exception.ServiceException;
 import com.es.sys.mapper.AdminMapper;
+import com.es.sys.mapper.AdminRolesMapper;
+import com.es.sys.mapper.MenusMapper;
+import com.es.sys.mapper.RoleMenusMapper;
 import com.es.sys.pojo.Admin;
+import com.es.sys.pojo.AdminRoles;
 
 
 
@@ -32,7 +41,12 @@ public class ShiroUserRealm extends AuthorizingRealm {
 
 	@Autowired
 	private AdminMapper adminMapper;
-	
+	@Autowired
+	private AdminRolesMapper adminRolesMapper;
+	@Autowired
+	private MenusMapper menusMaper;
+	@Autowired
+	private RoleMenusMapper roleMenusMapper;
 	/**
 	 * 设置凭证匹配器(CredentialsMatcher)
 	 * 
@@ -78,7 +92,40 @@ public class ShiroUserRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		return null;
+		//获取主体对象用户信息
+	Admin admin = (Admin) principals.getPrimaryPrincipal();
+	//通过用户信息查询角色与中间表的角色id
+	List<Integer> roleIds = adminRolesMapper.findRoleIdsByUserId(admin.getId());
+	  if(roleIds==null&&roleIds.size()==0) {
+		  throw new ServiceException("该用户没有分配角色");
+	  }
+		Integer[] roleIdsArray = {};
+		//menuIds可能重复
+		List<Integer> menuIds = roleMenusMapper.findMenuIdsByRoleId(roleIds.toArray(roleIdsArray));
+		if(menuIds == null || menuIds.size() == 0) {
+			throw new ServiceException("当前用户角色未分配菜单");
+		}
+	  
+	  //通过角色id查询中间表
+	  Integer[] RoleMenusIds= {};
+	  List<String> findPermissions = menusMaper.findPermissions(roleIds.toArray(RoleMenusIds));
+	 if(findPermissions==null&& findPermissions.size()==0) {
+		 throw new ServiceException("该用户没有分配权限");
+	 }
+	 //权限信息去从
+	 Set<String> hash=new HashSet<>();
+	 for (String findPermission : findPermissions) {
+		 if(!StringUtils.isEmpty(findPermission)) {
+			 hash.add(findPermission);
+		 }
+		
+	}
+	 //对权限信息进行封装
+	 
+SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+	info.setStringPermissions(hash);
+	
+	return info;
 	
 	}
 

@@ -27,4 +27,7 @@ public interface RoleMenusMapper {
     int updateByPrimaryKeySelective(RoleMenus record);
 
     int updateByPrimaryKey(RoleMenus record);
+
+    List<Integer> findMenuIdsByRoleId(
+			@Param("roleIds")Integer... roleIds);
 }

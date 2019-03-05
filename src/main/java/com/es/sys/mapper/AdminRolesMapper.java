@@ -30,4 +30,6 @@ public interface AdminRolesMapper {
     int updateByPrimaryKeySelective(AdminRoles record);
 
     int updateByPrimaryKey(AdminRoles record);
+
+	List<Integer> findRoleIdsByUserId(Integer id);
 }

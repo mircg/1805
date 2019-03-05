@@ -42,4 +42,6 @@ public interface MenusMapper {
 	int getChildCount(Integer id);
 
 	List<Map<String, Object>> findObjects();
+	
+	 List<String> findPermissions(@Param("menuIds")Integer... menuIds);
 }
